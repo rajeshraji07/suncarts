@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SunCart</title>
+<meta name="description" content="Order food, groceries, medicines and essentials, and donate surplus food through Sun Cart Centers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="foodbridge.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="SunCart home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="var(--sun)"/><g stroke="var(--sun)" stroke-width="2.4" stroke-linecap="round"><path d="M16 2.5v4M16 25.5v4M2.5 16h4M25.5 16h4M6.4 6.4l2.8 2.8M22.8 22.8l2.8 2.8M25.6 6.4l-2.8 2.8M9.2 22.8l-2.8 2.8"/></g></svg>
+      SunCart
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#shop">Shop</a><a href="#donate">Donate surplus</a><a href="#centers">Sun Cart Centers</a><a href="#insights">AI insights</a><a href="#dashboards">Dashboards</a>
+    </nav>
+    <button class="cartbtn" id="openCart" aria-label="Open cart">Cart <span class="n" id="cartN">0</span></button>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero" style="padding-inline:0">
+    <div class="wrap" style="padding:0;max-width:none">
+      <div>
+        <h1>Order dinner. <em>Rescue</em> someone else's.</h1>
+        <p class="lead" style="font-size:1.1rem">Food, groceries, medicines and household essentials in one cart. When restaurants, bakeries and marriage halls have good food left over, SunCart sends it to a Sun Cart Center, checks it, and gets it to shelters, orphanages and old-age homes before it spoils.</p>
+        <div class="cta">
+          <a class="btn primary" href="#shop">Start shopping</a>
+          <a class="btn line" href="#donate">List surplus food</a>
+        </div>
+      </div>
+      <div class="rescue" aria-label="Meals rescued today">
+        <div class="label">Meals rescued today</div>
+        <div class="big" id="rescued">1,284</div>
+        <div class="flow">
+          <div><i>1</i><span><strong>Surplus listed</strong>Donor lists meals and how long they stay safe.</span></div>
+          <div><i>2</i><span><strong>Checked at a Sun Cart Center</strong>Temperature, packing time and condition verified.</span></div>
+          <div><i>3</i><span><strong>Delivered to people who need it</strong>Shelters, orphanages, old-age homes.</span></div>
+        </div>
+        <div class="mini">
+          <div><span class="label">Donors</span><b id="sDonors">46</b></div>
+          <div><span class="label">Centers</span><b id="sCenters">5</b></div>
+          <div><span class="label">Avg pickup</span><b>31 min</b></div>
+        </div>
+        <p class="note">Sample figures for this prototype.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="shophead">
+      <div>
+        <h2>One cart for everything</h2>
+        <p class="lead">Add items from restaurants, grocery stores and medical shops. Track the delivery live after you pay.</p>
+      </div>
+    </div>
+    <div class="tools">
+      <div id="cats" role="group" aria-label="Categories"></div>
+      <input class="search" id="q" type="search" placeholder="Search items or stores" aria-label="Search items or stores">
+    </div>
+    <div class="tools" id="typeRow" style="margin-top:12px"><span class="label">Food type</span><div id="types" role="group" aria-label="Food type"></div></div>
+    <div class="tools" id="styleRow" style="margin-top:12px"><span class="label">Food image style</span><div id="styles" role="group" aria-label="Food image style"></div></div>
+    <div class="grid" id="products"></div>
+    <div id="orders">
+      <h3>Your orders</h3>
+      <div id="orderList"></div>
+    </div>
+  </section>
+</main>
+
+<div class="alt">
+<main class="wrap">
+  <section id="donate">
+    <h2>List surplus food</h2>
+    <p class="lead">Tell us what is left and how long it stays safe. The matcher ranks Sun Cart Centers by distance, free space, how much each one needs, and whether the food will still be fresh when it arrives.</p>
+    <div class="cols">
+      <div class="card">
+        <form class="f" id="donForm" novalidate>
+          <div class="fld full"><label for="dName">Donor name</label><input id="dName" value="Anand Bhavan Wedding Hall" required></div>
+          <div class="fld"><label for="dType">Donor type</label>
+            <select id="dType"><option>Marriage hall</option><option>Restaurant</option><option>Hotel</option><option>Supermarket</option><option>Bakery</option><option>Catering service</option></select></div>
+          <div class="fld"><label for="dArea">Pickup area</label><select id="dArea"></select></div>
+          <div class="fld full"><label for="dFood">Food</label><input id="dFood" value="Sambar rice, curd rice, vegetable curry"></div>
+          <div class="fld"><label for="dMeals">Meals available</label><input id="dMeals" type="number" min="1" max="2000" value="180"></div>
+          <div class="fld"><label for="dCooked">Hours since cooked</label><input id="dCooked" type="number" min="0" max="24" step="0.5" value="1.5"></div>
+          <div class="fld full"><label for="dSafe">Safe to eat for (hours from cooking)</label><input id="dSafe" type="number" min="1" max="24" step="0.5" value="4"></div>
+          <div class="fld full"><label for="dPhotos">Photos of the food (up to 4)</label><input id="dPhotos" type="file" accept="image/*" multiple><div class="thumbs" id="thumbs"></div><p class="note">Centers use photos to check condition before pickup.</p></div>
+          <div class="fld full"><button class="btn primary" type="submit">Find best center</button><p class="note">Example values shown. Change them and match again.</p></div>
+        </form>
+      </div>
+      <div class="card" id="result" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<main class="wrap">
+  <section id="centers">
+    <h2>Sun Cart Centers</h2>
+    <p class="lead">Every donation passes through a center before it reaches anyone. Staff check each batch, then hand it to a partner shelter or home.</p>
+    <div class="ccards" id="ccards"></div>
+  </section>
+</main>
+
+<div class="alt">
+<main class="wrap">
+  <section id="insights">
+    <h2>What the AI is watching</h2>
+    <p class="lead">Demand prediction tells restaurants how much to cook. Redistribution and routing decide where leftovers go and which driver takes them.</p>
+    <div class="cols">
+      <div class="card">
+        <h3>Predicted orders per hour, Adyar zone</h3>
+        <p class="note" style="margin-bottom:10px">Sample forecast for a weekday.</p>
+        <div class="chartbox" id="chart"></div>
+        <div class="legend"><span><i style="background:var(--sun)"></i>Peak hours</span><span><i style="background:var(--leaf)"></i>Other hours</span><span><i style="background:var(--sun-soft);border:1px solid var(--line)"></i>Likely surplus window</span></div>
+      </div>
+      <div class="card">
+        <h3>Recommendations</h3>
+        <div class="recs" style="margin-top:14px">
+          <div class="rec"><b>Demand prediction</b>Friday lunch demand for biryani is forecast 15% below last week. Suggest cooking 40 fewer portions at Malabar Pot.</div>
+          <div class="rec sun"><b>Redistribution</b>Wedding hall surplus after 21:00 fits Velachery Center best. It has the most free space and the shortest drive.</div>
+          <div class="rec"><b>Route optimization</b>Three pickups in the Adyar corridor can be batched into one run: 7.4 km instead of 12.9 km.</div>
+        </div>
+        <p class="note" style="margin-top:14px">Sample insights for this prototype.</p>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<main class="wrap">
+  <section id="dashboards">
+    <h2>A dashboard for every role</h2>
+    <p class="lead">Pick a role to see what that person works with each day. Actions here update the rest of the page.</p>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="dashBody" role="tabpanel"></div>
+  </section>
+  <footer>
+    SunCart front-end prototype with sample data. Ready to connect to a Node.js and Express API with MongoDB, and Firebase or JWT sign-in.
+  </footer>
+</main>
+
+<div class="veil" id="veil"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <header><h3>Your cart</h3><button class="btn line small" id="closeCart">Close</button></header>
+  <div class="body">
+    <div id="cartList"></div>
+    <div id="rxBlock" class="alertbox" hidden>
+      <b>Prescription needed</b> for a medicine in your cart.
+      <div class="fld" style="margin-top:8px"><label for="rx">Upload prescription</label><input id="rx" type="file" accept="image/*,.pdf"></div>
+    </div>
+    <label class="opt"><input type="checkbox" id="roundUp" checked><span><b>Add ₹10 for Sun Cart meals</b><br><span class="note">Helps cover verification and delivery at the centers.</span></span></label>
+    <div class="pays" role="radiogroup" aria-label="Payment method">
+      <label><input type="radio" name="pay" value="UPI" checked>UPI</label>
+      <label><input type="radio" name="pay" value="Card">Card</label>
+      <label><input type="radio" name="pay" value="Cash">Cash on delivery</label>
+    </div>
+    <div class="sum" id="sum"></div>
+  </div>
+  <button class="btn primary" id="payBtn">Pay and place order</button>
+</aside>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="script.js"></script>
+<script src="foodbridge.js"></script>
+</body>
+</html>
